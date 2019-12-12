@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.study.springboot.dao.SerachDao">
+
+	<select id="serach_list" resultType="com.study.springboot.dto.Serach_ChallengeDto">
+	select * from challenge where challenge_public = 0 and challenge_state = 1 order by challenge_num DESC
+	</select>
+
+</mapper>

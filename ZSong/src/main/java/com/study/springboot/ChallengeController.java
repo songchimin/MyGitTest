@@ -3,7 +3,9 @@ package com.study.springboot;
 
 import java.io.IOException;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -17,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.study.springboot.dao.Web_ChallengeDao;
 import com.study.springboot.dto.ChallengeDto;
+import com.study.springboot.dto.MemberDto;
 import com.study.springboot.dto.PageInfo;
 
 @Controller
@@ -26,6 +29,7 @@ public class ChallengeController {
 	Web_ChallengeDao dao;
 	
 	List<ChallengeDto> challenge;
+	List<MemberDto> member;
 	
 	
 	@RequestMapping("/register_challenge")
@@ -293,7 +297,7 @@ public class ChallengeController {
 		arrDate[1]=arrDate[1].replace("/", "-");
 		
 		arrDate[0]=arrDate[0]+" 00:00:00.0";
-		arrDate[1]=arrDate[1]+" 23:59:59.9";
+		arrDate[1]=arrDate[1]+" 00:00:00.0";
 		
 		
 		Timestamp start=null;
@@ -328,10 +332,20 @@ public class ChallengeController {
 		Timestamp start = null;
 		Timestamp end = null;
 		
-		dao.PrivateChallengeApproval(num);
+	        char[] charaters = {'a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z','0','1','2','3','4','5','6','7','8','9'};
+
+	        StringBuffer sb = new StringBuffer();
+	        Random rn = new Random();
+
+	        for( int i = 0 ; i < 10 ; i++ ){
+	            sb.append( charaters[ rn.nextInt( charaters.length ) ] );
+	        }
+
+	        String code = "try-"+sb.toString();
+		
+		dao.PrivateChallengeApproval(num, code);
 	    
 		StringBuffer result = new StringBuffer("");
-
 		result.append("1");
 		
 		response.getWriter().write(result.toString());
@@ -513,5 +527,75 @@ public class ChallengeController {
 		
 		
 		return "/challenge/ongoing_challenge_content";
+	}
+	
+	
+	@RequestMapping("/read_participant")
+	public void read_participant(HttpServletRequest request, HttpServletResponse response, Model model)
+			throws ServletException, IOException{
+		
+		request.setCharacterEncoding("UTF-8");
+		response.setContentType("text/html; charset=UTF-8");
+		StringBuffer result = new StringBuffer("");
+		
+		int num = Integer.parseInt(request.getParameter("num"));
+		
+		System.out.println(num);
+		member = dao.read_participant(num);
+
+		result.append("{\"result\":[");
+		
+		for(int i = 0 ; i < member.size() ; i++) {
+//			result.append("[{\"value\": \"" + member.get(i).getMember_nickname() + "\"},");
+//			result.append("{\"value\": \"" + member.get(i).getMember_profile_image() + "\"}]");
+			result.append("[{\"value\": \"" + member.get(i).getMember_nickname() + "\"},");
+			result.append("{\"value\": \"" + member.get(i).getMember_profile_image() + "\"}]");
+			if(i != member.size() - 1) 
+				result.append(",");
+		}
+//		result.append("], \"last\":\"" + "\"}");
+//		result.append("" + "\"}");
+		result.append("]}");
+		
+		response.getWriter().write(result.toString());
+		
+		System.out.println(result);
+		System.out.println("결과 확인");
+	}
+	
+
+	@RequestMapping("/read_imagelist")
+	public void read_imagelist(HttpServletRequest request, HttpServletResponse response, Model model)
+			throws ServletException, IOException{
+		
+		request.setCharacterEncoding("UTF-8");
+		response.setContentType("text/html; charset=UTF-8");
+		StringBuffer result = new StringBuffer("");
+		
+		int num = Integer.parseInt(request.getParameter("num"));
+		
+		System.out.println(num);
+//		member = dao.read_participant(num);
+		
+//		response.getWriter().write(result.toString());
+
+		result.append("{\"result\":[");
+		
+//		for(int i = 0 ; i < member.size() ; i++) {
+			result.append("[{\"value\": \"" + "치민" + "\"},");
+			result.append("{\"value\": \"" + "ㅇㅇㅇㅇㅇㅇㅇㅇ" + "\"},");
+			result.append("{\"value\": \"" + "/img/aaa.jpg" + "\"},");
+			result.append("{\"value\": \"" + "12:00" + "\"}]");
+//			if(i != member.size() - 1) 
+				result.append(",");
+				result.append("[{\"value\": \"" + "송" + "\"},");
+				result.append("{\"value\": \"" + "ㅅㅅㅅㅅㅅㅅㅅㅅ" + "\"},");
+				result.append("{\"value\": \"" + "/img/aaa.jpg" + "\"},");
+				result.append("{\"value\": \"" + "15:00" + "\"}]");
+//		}
+		result.append("]}");
+		
+		response.getWriter().write(result.toString());
+
 	}
 }

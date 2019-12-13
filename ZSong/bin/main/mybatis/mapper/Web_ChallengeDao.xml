@@ -67,7 +67,7 @@
    </update>
    
    <update id="PrivateChallengeApproval">
-   		update challenge set challenge_state = 2 where challenge_num = #{param1}
+   		update challenge set challenge_state = 2, challenge_code = #{param2} where challenge_num = #{param1}
    </update>
    
    <select id="challenge_content_vote_comment" resultType="com.study.springboot.dto.CommentDto">
@@ -162,6 +162,11 @@
    
    <select id="ongoing_challenge_content" resultType="com.study.springboot.dto.ChallengeDto">
 		select * from challenge where challenge_state = 2 and challenge_num = #{param1}
+   </select>
+   
+   
+   <select id="read_participant" resultType="com.study.springboot.dto.MemberDto">
+		select * from member where member_no in (select member_num from record where challenge_num = #{param1})
    </select>
 
 </mapper>

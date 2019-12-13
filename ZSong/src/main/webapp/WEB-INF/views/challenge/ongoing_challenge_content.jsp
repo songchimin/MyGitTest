@@ -17,9 +17,8 @@
 <meta charset="UTF-8">
 <title>진행중인 챌린지</title>
 
-<!-- <script src="//code.jquery.com/jquery-3.3.1.min.js"></script> -->
+<script src="//code.jquery.com/jquery-3.3.1.min.js"></script>
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7/jquery.js"></script>
-
 
 
     <style>
@@ -39,6 +38,12 @@
 /* 		.custom-select { */
 /* 			width: 110px; */
 /* 		} */
+
+		::-webkit-scrollbar { 
+		
+		    display: none; 
+		
+		}
     </style>
 
 <script type="text/javascript">
@@ -84,8 +89,170 @@
 		}
 
 	}
+
+
+	
+	
+	function chatListFunction(){
+		$('#participant_list').empty();
+		
+		var num = ${challenge.challenge_num};
+		$.ajax({
+			type: "POST",
+			url: "read_participant",
+			data: {num:num},
+			success: function(data){
+// 				alert(data);
+				var parsed = JSON.parse(data);
+// 				alert(parsed);
+				var result = parsed.result;
+// 				alert(result);
+				
+				$('#party').text("참가자 "+result.length+"명");
+				for(var i = 0 ; i < result.length; i++){
+					addparticipan(result[i][0].value, result[i][1].value);
+// 					alert(result[i][0].value +"    "+ result[i][1].value);	
+				}
+			}
+		});
+	}
+	
+	function addparticipan(nickname, profile){
+
+		$('#participant_list').append('<div class="row" style="padding-left:20px; margin:0;">' +
+				'<div class="media">' + 
+				'<a class="pull-left" href="#">' + 
+// 				'<img class ="media-object img-circle" style="width:30px; height:30px;" src='+profile+' alt="">' +
+				'<img class ="media-object img-circle" style="width:30px; height:30px;" src="/img/profile.png" alt="">' +	
+				'</a>' + 
+				'<div class="media-body">' + 
+				'<h5 class="media-heading" style="padding-left: 5px;">' + 
+				nickname + 
+				'</h4>' + 
+				'</div>' + 
+				'</div>' + 
+				'</div>' + 
+				'<hr>');
+		
+// 		var objDiv = document.getElementById("participant_list");
+// 		objDiv.scrollTop = objDiv.scrollHeight;
+	}
+
+
+	function imagelist(){
+		$('#image').empty();
+				
+		var num = ${challenge.challenge_num};
+			$.ajax({
+				type: "POST",
+				url: "read_imagelist",
+				data: {num:num},
+				success: function(data){
+		//				alert(data);
+					var parsed = JSON.parse(data);
+		//				alert(parsed);
+					var result = parsed.result;
+		//				alert(result);
+					
+					for(var i = 0 ; i < result.length; i++){
+						addimage(result[i][0].value, result[i][1].value, result[i][2].value, result[i][3].value, i);
+		//					alert(result[i][0].value +"    "+ result[i][1].value);	
+					}
+				}
+			});
+	}
+
+	function addimage(title, comment, image, time,i){
+
+		$('#image').append('<div class="col-md-4" id='+i+'>' +
+				'<div class="card">' +
+				'<img src="'+image+'" class="card-img-top" alt="...">' +
+				'<div class="card-body">' +
+				'<h5 class="card-title">'+title+'</h5>' +
+				'<p class="card-text">'+comment+'</p>' +
+				'</div>' +
+				'<div class="card-footer">' +
+				'<small class="text-muted">'+time+'</small>' +
+				'</div>' +
+				'</div>' +
+				'</div>'
+				);
+
+// 		var objDiv = document.getElementById("participant_list");
+// 		objDiv.scrollTop = objDiv.scrollHeight;
+
+	}
+
+
+	function getInfiniteChat(){
+		setInterval(function() {
+			chatListFunction();
+			imagelist();
+		},10000);
+	}
+	
+
 </script>
 
+
+<style>
+    .menu a{cursor:pointer;}
+    .menu .hide{display:none;}
+
+</style>
+  
+<script type="text/javascript">
+    // html dom 이 다 로딩된 후 실행된다.
+    $(document).ready(function(){
+        // menu 클래스 바로 하위에 있는 a 태그를 클릭했을때
+        $(".menu>button").click(function(){
+        	var submenu = $(this).next("ul");
+        	
+            // submenu 가 화면상에 보일때는 위로 보드랍게 접고 아니면 아래로 보드랍게 펼치기
+            if( submenu.is(":visible") ){
+                submenu.slideUp();
+                $("#tab").text("▼");
+            }else{
+                submenu.slideDown();
+                $("#tab").text("▲");
+            }
+        });
+    });
+
+</script>
+
+
+
+<style type="text/css">
+	    
+    	a #MOVE_TOP_BTN {
+	    position: fixed;
+	    right: 2%;
+	    bottom: 50px;
+	    display: none;
+	    z-index: 999;
+	}
+
+</style>
+
+<script type="text/javascript">
+$(function() {
+    $(window).scroll(function() {
+        if ($(this).scrollTop() > 300) {
+            $('#MOVE_TOP_BTN').fadeIn();
+        } else {
+//             $('#MOVE_TOP_BTN').fadeOut();
+        }
+    });
+    
+    $("#MOVE_TOP_BTN").click(function() {
+        $('html, body').animate({
+            scrollTop : 0
+        }, 400);
+        return false;
+    });
+});
+</script>
 
 </head>
 <body>
@@ -112,7 +279,6 @@
       <a class="list-group-item list-group-item-action" id="list-settings-list" data-toggle="list" href="#list-settings" role="tab" aria-controls="settings" onclick="state()">챌린지 현황</a>
     </div>
   </div>
-  
   
   <div class="col-8"> 
     
@@ -174,12 +340,52 @@
 				<td style="vertical-align: middle; border-right: 1px solid #dee2e6;">개설자</td>
 				<td colspan="3" style="vertical-align: middle;">사용자번호,아이디,이름</td>
 			</tr>
+			
+			
+			<tr>
+				<td colspan="4">
+					
+					<script type="text/javascript">
+
+	 					<jsp:useBean id="now" class="java.util.Date" />
+	 					<fmt:formatDate value="${now}" pattern="yyyy-MM-dd" var="today" />
+	 					
+	 	 				<fmt:parseDate var="day" value="${today}"  pattern="yyyy-MM-dd"/>
+	 	 				
+	 					<fmt:parseDate var="startDate_D"  value="${start}" pattern="yyyy-MM-dd"/>
+	 					<fmt:parseDate var="endDate_D" value="${end}"  pattern="yyyy-MM-dd"/>
+	 					
+	 					 
+	 					<fmt:parseNumber var="nowdate" value="${day.time / (1000*60*60*24)}" integerOnly="true" />
+	 					<fmt:parseNumber var="strDate" value="${startDate_D.time / (1000*60*60*24)}" integerOnly="true" />
+	 					<fmt:parseNumber var="endDate" value="${endDate_D.time / (1000*60*60*24)}" integerOnly="true" /> 
+
+
+
+// 		 					$("#bar").width('50%');
+
+					</script>
+					
+					<div class="progress">
+						<div id="bar" class="progress-bar progress-bar-striped bg-danger progress-bar-animated" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="width: 75%">${ ((nowdate - strDate) / (endDate - strDate)) * 100}% 진행중</div>
+					</div>
+				 	
+
+					
+				</td>
+			</tr>
+			
+			
+			
 			<tr>
 				<td colspan="4" style="vertical-align: middle; background-color: #3EBDFF;">챌린지 규칙</td>
 			</tr>
+			
 			<tr>
 				<td colspan="4" rowspan="2" height="200px;" style="vertical-align: middle;">${challenge.challenge_detail}</td>
 			</tr>
+
+	
 			<tr></tr>
 			
 			<tr>
@@ -191,6 +397,28 @@
 			</tr>
 			<tr>
 				<td colspan="4"></td>
+			</tr>
+			<tr>
+				<td colspan="4" align="center">
+					<li class="menu"  style="list-style: none; align-content: center;">
+						<button class="btn btn-outline-primary" type="button" onclick="" style="margin-bottom: 15px;" id="tab">▼</button>
+			            <ul class="hide" style="list-style: none; text-align: left; padding:0; margin: 0;">
+			                <li>
+
+								<div class="row">
+									<div class="card-deck" id="image">
+								
+								  	</div>
+								</div>
+								<div class="row" style="text-align: right;">
+									<a id="MOVE_TOP_BTN" href="#">TOP</a>
+								</div>
+
+			                </li>
+			            </ul>
+			        </li>
+
+				</td>
 			</tr>
 			
   </tbody>
@@ -206,13 +434,14 @@
   
 <div class="col-2">  
 	
-	<!--참여자 리스트 -->  
-    <div style="line-height:37px; height:37px; color: white; font-size: 14pt; background-color: #007BFF; vertical-align:middle; text-align: center; border-top: 2px solid #dee1e6; border-left: 2px solid #dee1e6; border-right: 2px solid #dee1e6;">참가자 목록</div>
-    <div id="participant" style="height: 200px; text-align: center; border: 2px solid #dee1e6;">
-    	<div id="participant_list">
-    		사용자 닉네임 출력
+	<!--참여자 리스트   -->
+    <div style="line-height:37px; height:37px; color: white; font-size: 14pt; background-color: #007BFF; vertical-align:middle; text-align: center; border-top: 2px solid #dee1e6; border-left: 2px solid #dee1e6; border-right: 2px solid #dee1e6;" id="party">참가자 </div>
+    <div id="participant" style="text-align: center; border: 2px solid #dee1e6;">
+    	<div id="participant_list" style="overflow-y:auto; height: 300px;" >
+    	
     	</div>
     </div>
+
 
 <br/><br/><br/>
 	
@@ -229,7 +458,7 @@
     <h3>채팅방</h3>
 		<textarea rows="12" id="result" readonly style="border:2px solid #dee1e6; resize: none; width: 100%;"></textarea>
     
-    
+
     
 </div>
   
@@ -249,16 +478,30 @@
 
 
 
-
-
-
-
 <!-- http://rwdb.kr/datepicker/ -->
 
 
 <!-- 	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script> -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+    
+	
+	
+	<!-- 지속해서 실행 되어야 하는 부분 -->
+		<script type="text/javascript">
+			$(document).ready(function() {
+				getInfiniteChat();
+// 				chatListFunction();
+// 				imagelist();
+			});
+
+			$(window).on('load', function(){
+				chatListFunction();
+				imagelist();
+			});
+		</script>
+		
+		
 </body>
 
 
@@ -316,7 +559,7 @@
 
 		  var b = name + "  :  " + message +"\n";
 			
-			a.value += b;
+			  a.value += b;
 			  document.getElementById("result").scrollTop = document.getElementById("result").scrollHeight;
 		});
   

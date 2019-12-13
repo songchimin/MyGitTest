@@ -143,7 +143,40 @@
 			
 			<tr>
 				<td colspan="4" align="right">
-					<button class="btn btn-outline-primary" type="button" onclick="approval('${challenge.challenge_num}');" >투표 승인</button>
+<%-- 					<button class="btn btn-outline-primary" type="button" onclick="approval('${challenge.challenge_num}');" >투표 승인</button> --%>
+					
+					
+					<!-- Button trigger modal -->
+					<button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#exampleModalCenter">
+					  투표 승인
+					</button>
+					
+					<!-- Modal -->
+					<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+					  <div class="modal-dialog modal-dialog-centered" role="document">
+					    <div class="modal-content">
+					      <div class="modal-header">
+					        <h5 class="modal-title" id="exampleModalCenterTitle">승인</h5>
+					        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					          <span aria-hidden="true">&times;</span>
+					        </button>
+					      </div>
+					      <div class="modal-body" align="left">
+					      	<br/>
+					        	${challenge.challenge_title} 챌린지를 승인 하시겠습니까?
+					        <br/>
+					        <br/>
+					      </div>
+					      <div class="modal-footer">
+					        <button type="button" class="btn btn-primary" onclick="approval('${challenge.challenge_num}')">예</button>
+					        <button type="button" class="btn btn-secondary" data-dismiss="modal">아니오</button>
+					      </div>
+					    </div>
+					  </div>
+					</div>
+					
+					
+					
 					<button class="btn btn-outline-primary" type="button" onclick="postpone();" >보류</button>
 					<button class="btn btn-outline-primary" type="button" onclick="javascript:window.location='register_challenge?page=<%= session.getAttribute("cpage") %>';" >목록보기</button>
 				</td>

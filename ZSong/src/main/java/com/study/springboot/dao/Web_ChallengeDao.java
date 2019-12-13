@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Mapper;
 
 import com.study.springboot.dto.ChallengeDto;
 import com.study.springboot.dto.CommentDto;
+import com.study.springboot.dto.MemberDto;
 
 @Mapper
 public interface Web_ChallengeDao {
@@ -25,7 +26,7 @@ public interface Web_ChallengeDao {
 	
 	public void ChallengeApproval(int num, String name, String title, String type, String frequency,
 			Timestamp start, Timestamp end,	int fee, String time, String detail, int exp);
-	public void PrivateChallengeApproval(int num);
+	public void PrivateChallengeApproval(int num, String code);
 	
 	public ArrayList<CommentDto> challenge_content_vote_comment(int num);
 
@@ -46,6 +47,7 @@ public interface Web_ChallengeDao {
 	
 	
 	public ChallengeDto ongoing_challenge_content(int num);
-
+	
+	public ArrayList<MemberDto> read_participant(int num);
 	
 }

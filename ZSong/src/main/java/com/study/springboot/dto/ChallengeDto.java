@@ -22,6 +22,7 @@ public class ChallengeDto {
 	private int challenge_exp;
 	private Timestamp challenge_date;
 	private String challenge_host;
+	private String challenge_code;
 	
 	private int count;
 }

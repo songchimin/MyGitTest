@@ -1,7 +1,7 @@
 <%@page import="java.net.URLDecoder"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@page import="com.study.jsp.MemberDAO"%>
+<%-- <%@page import="com.study.jsp.MemberDAO"%> --%>
 <%
 	String userID = null;
 	String toID = null;
@@ -15,8 +15,10 @@
 // 		return;
 // 	}
 
-	String fromProfile = new MemberDAO().getprofilePath(userID);
-	String toProfile = new MemberDAO().getprofilePath(toID);
+// 	String fromProfile = new MemberDAO().getprofilePath(userID);
+// 	String toProfile = new MemberDAO().getprofilePath(toID);
+	String fromProfile = "/img/profile.png";
+	String toProfile = "/img/profile.png";
 %>
     
 <!DOCTYPE html>
@@ -29,8 +31,9 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 	<link rel="stylesheet" href="./css/bootstrap.css">
 	<link rel="stylesheet" href="./css/custom.css">
-	<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+	<script src="//code.jquery.com/jquery-3.3.1.min.js"></script>
 	<script src="./js/bootstrap.js"></script>
+
 
 	<script type="text/javascript">
 		function autoClosingAlert(selector, delay){
@@ -45,7 +48,7 @@
 			var chatContent = $('#chatContent').val();	
 			$.ajax({
 				type: "POST",
-				url: "./chatSubmitServlet",
+				url: "/chatSubmitServlet",
 				data: {
 					fromID: encodeURIComponent(fromID),
 					toID: encodeURIComponent(toID),
@@ -70,7 +73,7 @@
 			var toID = '<%= toID %>';
 			$.ajax({
 				type: "POST",
-				url: "./chatListServlet",
+				url: "/chatListServlet",
 				data: {
 					fromID: encodeURIComponent(fromID),
 					toID: encodeURIComponent(toID),
@@ -78,6 +81,7 @@
 				},
 				success: function(data){
 					if(data == "") return;
+					
 					var parsed = JSON.parse(data);
 					var result = parsed.result;
 					for(var i = 0 ; i < result.length; i++){
@@ -157,7 +161,7 @@
 			<div class="portlet portlet-blue" style="margin: 0;">
 				<div class="portlet-heading">
 					<div class="portlet-title">
-						<h4><img onclick="location.href='/zzzz/box.jsp'" alt="" src="./img/arrow_back2.png"><i class="fa fa-circle text-green"></i>채팅창</h4>
+						<h4><img onclick="location.href='/box_list'" alt="" src="/img/arrow_back2.png"><i class="fa fa-circle text-green"></i>채팅창</h4>
 					</div>
 					<div class="clearfix"></div>
 				</div>

@@ -192,6 +192,7 @@
 	}
 	
 
+
 </script>
 
 
@@ -254,6 +255,22 @@ $(function() {
 });
 </script>
 
+
+
+<script type="text/javascript">
+
+	$(window).scroll(function(event){
+	if(jQuery(window).scrollTop() > jQuery(".banner").offset().top) {
+	jQuery("#chase").css("position", "fixed");
+	}
+	else if((jQuery(window).scrollTop() < jQuery(".banner").offset().top)) {
+	jQuery("#chase").css("position", "static");
+	}
+	});
+</script>
+
+
+
 </head>
 <body>
 
@@ -266,10 +283,17 @@ $(function() {
 <div class="row" style="margin: 50px; min-width: 1050px;">
 
 
+
+
 <div class="col-12">
 
 <div class="row">
   <div class="col-2">
+  
+  
+  <div class="banner">
+<div id="chase" style="top:0px;">
+  
     <div class="list-group" id="list-tab" role="tablist">
       <a class="list-group-item list-group-item-action" id="list-home-list" data-toggle="list" href="#" role="tab" aria-controls="home" onclick="register()">등록 관리</a>
       <a class="list-group-item list-group-item-action" id="list-vote-list" data-toggle="list" href="#" role="tab" aria-controls="vote" onclick="vote()">투표중인 챌린지</a>
@@ -278,6 +302,12 @@ $(function() {
       <a class="list-group-item list-group-item-action" id="list-messages-list" data-toggle="list" href="#" role="tab" aria-controls="messages" onclick="end()">지난 챌린지</a>
       <a class="list-group-item list-group-item-action" id="list-settings-list" data-toggle="list" href="#list-settings" role="tab" aria-controls="settings" onclick="state()">챌린지 현황</a>
     </div>
+    
+    
+    </div>
+</div>
+    
+    
   </div>
   
   <div class="col-8"> 
@@ -358,19 +388,30 @@ $(function() {
 	 					 
 	 					<fmt:parseNumber var="nowdate" value="${day.time / (1000*60*60*24)}" integerOnly="true" />
 	 					<fmt:parseNumber var="strDate" value="${startDate_D.time / (1000*60*60*24)}" integerOnly="true" />
-	 					<fmt:parseNumber var="endDate" value="${endDate_D.time / (1000*60*60*24)}" integerOnly="true" /> 
-
-
-
-// 		 					$("#bar").width('50%');
-
+	 					<fmt:parseNumber var="endDate" value="${endDate_D.time / (1000*60*60*24)}" integerOnly="true" />
+	 						
 					</script>
 					
 					<div class="progress">
-						<div id="bar" class="progress-bar progress-bar-striped bg-danger progress-bar-animated" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="width: 75%">${ ((nowdate - strDate) / (endDate - strDate)) * 100}% 진행중</div>
+						<c:if test="${ ((nowdate - strDate) / (endDate - strDate)) * 100 >= 0}">
+							<div id="bar" class="progress-bar progress-bar-striped bg-danger progress-bar-animated" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%"><fmt:formatNumber type="number" pattern="0.0" value="${ ((nowdate - strDate) / (endDate - strDate)) * 100}"/>% 진행중</div>
+						</c:if>
+						<c:if test="${ ((nowdate - strDate) / (endDate - strDate)) * 100 < 0}">
+							<div style="width: 100%">참가자 모집중</div>
+						</c:if>
 					</div>
 				 	
+				 	<script type="text/javascript">
+						var c = ${ ((nowdate - strDate) / (endDate - strDate)) * 100};
 
+				 		if( c >= 100){
+				 			$("#bar").css('width','100%');
+				 			$("#bar").text("100% 완료");
+					 	}
+				 		else{
+				 			$("#bar").css('width','${ ((nowdate - strDate) / (endDate - strDate)) * 100}%');
+						}
+				 	</script>
 					
 				</td>
 			</tr>
@@ -410,14 +451,14 @@ $(function() {
 								
 								  	</div>
 								</div>
-								<div class="row" style="text-align: right;">
-									<a id="MOVE_TOP_BTN" href="#">TOP</a>
-								</div>
-
 			                </li>
 			            </ul>
 			        </li>
-
+				</td>
+			</tr>
+			<tr>
+				<td colspan="4" align="right">
+					<a id="MOVE_TOP_BTN" href="#">TOP</a>
 				</td>
 			</tr>
 			
@@ -457,9 +498,18 @@ $(function() {
     
     <h3>채팅방</h3>
 		<textarea rows="12" id="result" readonly style="border:2px solid #dee1e6; resize: none; width: 100%;"></textarea>
-    
-
-    
+	
+	
+<!-- 	<s_sidebar_element> -->
+<!-- <div class="banner"> -->
+<!-- <div id="chase" style="top:0px;"> -->
+<!-- 	움직이나요움직이나요움직이나요움직이나요움직이나요움직이나요움직이나요 -->
+<!-- </div> -->
+<!-- </div> -->
+<!-- </s_sidebar_element> -->
+	
+	
+	
 </div>
   
   
@@ -474,6 +524,7 @@ $(function() {
 <div class="bg"></div>
 <div id="layer"></div>
 </div>
+
 
 
 

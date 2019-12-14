@@ -33,12 +33,12 @@
 
     <script>
         function nwindow(){
-            var url="/zzzz/index.jsp?toID=admin";
+            var url="/index?toID=admin";
             window.open(url,"","width=690,height=766,left=1200,top=100");
         }
         
         function nw2indow(){
-            var url="/zzzz/box.jsp";
+            var url="/box_list";
             window.open(url,"","width=690,height=766,left=1200,top=100");
         }
     </script>
@@ -48,7 +48,7 @@
 			var userID = '<%= userID %>';
 			$.ajax({
 				 type: "POST",
-				 url: "./chatUnread",
+				 url: "/chatUnread",
 				 data: {
 					 userID: encodeURIComponent(userID),
 				 },
@@ -148,7 +148,7 @@ function stopDrag(){
  			<a class="p-2 text-dark" href="/waitQnA?page=1">Q & A</a>
  			
  			<c:if test="${id!=null}">
-<!-- 	     		<a href="#" onclick="SirenFunction('SirenDiv'); return false;" class="blind_view"><img alt="관리자 문의" src="/zzzz/img/chat.png"><span style="position:relative; z-index: 1242145; right: 30px;" id="unread" class="badge badge-danger"></span></a> -->
+	     		<a href="#" ondblclick="SirenFunction('SirenDiv'); return false;" class="blind_view" style="position:relative; z-index: 1242145; left:1px; top:1px; cursor:pointer; cursor:hand" onmousedown="startDrag(event, this)"><img alt="채팅" src="/img/chat.png"><span style="position:relative; z-index: 1242145; right: 20px; bottom: 20px; " id="unread" class="badge badge-danger"></span></a>
      		</c:if>
      		
 	 			<!--사용자 메뉴(토글사용) -->			
@@ -200,14 +200,14 @@ function stopDrag(){
 
 
 
-<!--     <div class="con_inner" style="border-style:solid;  border: 10px; border-bottom-width:10px; border-color:#2980b9;"> -->
-<!-- 	    <div class="notice-box"  id="SirenDiv" style='padding:0;  border-color:#2980b9; border-color:#2980b9; z-index: 2147483647; position:absolute; left:60%; top:100px; cursor:pointer; cursor:hand' onmousedown='startDrag(event, this)'> -->
-<!-- 		<span id='close' onclick="this.parentNode.style.display = 'none';">&times;</span> -->
-<!-- 			<iframe scrolling="no" src="http://localhost:8081/zzzz/box.jsp" style="width: 380px; height: 540px; border: 2px solid; border-color: #2980b9; border-top-width: 15px; border-bottom-width: 3px; "> -->
+    <div class="con_inner" style="border-style:solid;  border: 10px; border-bottom-width:10px; border-color:#2980b9;">
+	    <div class="notice-box"  id="SirenDiv" style='padding:0;  border-color:#2980b9; border-color:#2980b9; z-index: 2147483647; position:absolute; left:60%; top:100px; cursor:pointer; cursor:hand' onmousedown='startDrag(event, this)'>
+		<span id='close' onclick="this.parentNode.style.display = 'none';">&times;</span>
+			<iframe scrolling="no" src="/box_list" style="width: 380px; height: 540px; border: 2px solid; border-color: #2980b9; border-top-width: 15px; border-bottom-width: 3px; ">
 			
-<!-- 			</iframe> -->
-<!-- 		</div> -->
-<!-- 	</div> -->
+			</iframe>
+		</div>
+	</div>
 
 <!-- 바로 관리자 채팅 -->
 <!-- <iframe scrolling="no" src="http://localhost:8081/zzzz/index.jsp?toID=admin" style="width: 420px; height: 580px; border: 2px solid; border-color: #2980b9; border-top-width: 15px; border-bottom-width: 3px; "> -->

@@ -49,6 +49,7 @@ public class MyController {
 //		return "/login";
 //	}
 	
+	
 	@RequestMapping("/")
 	public String root() throws Exception{
 		System.out.println("루트");

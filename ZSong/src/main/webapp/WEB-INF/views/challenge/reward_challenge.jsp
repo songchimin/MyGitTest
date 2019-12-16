@@ -112,7 +112,7 @@
 			<tr>
 				<th scope="row" style="vertical-align: middle;">${dto.challenge_num}			    
 				<td style="vertical-align: middle;">${dto.challenge_category}</td>
-				<td style="vertical-align: middle;" colspan="2"><a href="/challenge_content?num=${dto.challenge_num}">${dto.challenge_title}</a>
+				<td style="vertical-align: middle;" colspan="2"><a href="/reward_challenge_content?num=${dto.challenge_num}">${dto.challenge_title}</a>
 				
 				<jsp:useBean id="toDay" class="java.util.Date" />
 				<fmt:formatDate value='${toDay}' pattern='yyyy-MM-dd' var="nowDate"/>

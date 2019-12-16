@@ -28,4 +28,5 @@ public class MemberDto {
 	private int	member_assets;
 	private int	member_life;
 	private int	member_hobby;
+	private String	member_token;
 }

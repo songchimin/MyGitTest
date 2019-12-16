@@ -168,5 +168,20 @@
    <select id="read_participant" resultType="com.study.springboot.dto.MemberDto">
 		select * from member where member_no in (select member_num from record where challenge_num = #{param1})
    </select>
+   
+   
+   <update id="save_token">
+   		update member set member_token = #{param2} where member_id  = #{param1}
+   </update>
+   
+   <select id="get_token" resultType="String">
+		select member_token from member where member_id = #{param1}
+   </select>
+   
+   <select id="GetRecord" resultType="com.study.springboot.dto.RecordDto">
+		select b.member_id, a.certificate_count, a.all_count, a.challenge_fee from record a, member b where member_num = member_no and challenge_num = #{param1}
+   </select>
+   
 
+	
 </mapper>

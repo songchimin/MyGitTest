@@ -3,7 +3,6 @@ package com.study.springboot;
 
 import java.io.IOException;
 import java.sql.Timestamp;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
@@ -11,16 +10,19 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.sound.sampled.ReverbType;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.study.springboot.dao.Web_ChallengeDao;
 import com.study.springboot.dto.ChallengeDto;
 import com.study.springboot.dto.MemberDto;
 import com.study.springboot.dto.PageInfo;
+import com.study.springboot.dto.RecordDto;
 
 @Controller
 public class ChallengeController {
@@ -30,7 +32,7 @@ public class ChallengeController {
 	
 	List<ChallengeDto> challenge;
 	List<MemberDto> member;
-	
+	List<RecordDto> Record;
 	
 	@RequestMapping("/register_challenge")
 	public String register_challenge(HttpServletRequest request, Model model){
@@ -598,4 +600,124 @@ public class ChallengeController {
 		response.getWriter().write(result.toString());
 
 	}
+	
+	
+	
+	@RequestMapping(value = "/fcmtest")
+	public void fcmtest(HttpServletRequest request, HttpServletResponse response, Model model) throws Exception {
+		
+		String id = request.getParameter("id");
+//		String title = request.getParameter("title");
+		String content = request.getParameter("content");
+		
+	    String tokenId = dao.get_token(id);
+	    String title="FCM 테스트";
+//	    String content="호예... 된당  잔다..";
+	  
+	    FcmUtil FcmUtil = new FcmUtil();
+	    FcmUtil.send_FCM(tokenId, title, content, "");
+	  
+//	    return "test";
+	}
+	
+	@RequestMapping(value = "/fcmall")
+	public void fcmall(HttpServletRequest request, HttpServletResponse response, Model model) throws Exception {
+		
+//		String title = request.getParameter("title");
+		String content = request.getParameter("content");		
+		
+//	    String tokenId = dao.get_token(id);
+	    String title="FCM 테스트";
+//	    String content="호예... 된당  잔다..";
+	  
+	    FcmUtil FcmUtil = new FcmUtil();
+	    FcmUtil.send_FCM("", title, content, "all");
+	  
+//	    return "test";
+	}
+	
+	@RequestMapping(value = "/fcmChallenge")
+	public void fcmChallenge(HttpServletRequest request, HttpServletResponse response, Model model) throws Exception {
+		
+//		String title = request.getParameter("title");
+		String content = request.getParameter("content");
+		String no = request.getParameter("no");
+		
+	    String title="FCM 테스트";
+	  
+	    FcmUtil FcmUtil = new FcmUtil();
+	    FcmUtil.send_FCM("", title, content, no);
+	  
+//	    return "test";
+	}
+	
+	
+	@RequestMapping("/token_save")
+	public void token_save(HttpServletRequest request, HttpServletResponse response, Model model,
+			@RequestParam("id") String id, @RequestParam("token") String token) throws Exception {
+	
+		System.out.println("들어옴");
+		dao.save_token(id, token);
+	}
+	
+	
+	@RequestMapping("/reward_challenge_content")
+	public String reward_challenge_content(HttpServletRequest request, Model model){
+		
+		int num = Integer.parseInt(request.getParameter("num"));
+		ChallengeDto dto = dao.ongoing_challenge_content(num);
+		
+		Record = dao.GetRecord(num);
+		
+
+		
+		model.addAttribute("challenge", dto);
+		model.addAttribute("Record", Record);
+		return "/challenge/reward_challenge_content";
+	}
+	
+	
+	@RequestMapping("/ok")
+	public void ok(HttpServletRequest request, Model model){
+		
+		int num = Integer.parseInt(request.getParameter("num"));
+		ChallengeDto dto = dao.ongoing_challenge_content(num);
+		
+		Record = dao.GetRecord(num);
+		
+		int total = Record.size() * Record.get(0).getChallenge_fee();
+		int low = 0;
+		int count = 0;
+		
+		for(int i = 0 ; i < Record.size() ; i++) {
+			
+			System.out.println(Record.get(i).getCertificate_count() + " " + Record.get(i).getAll_count());
+			double per = (double)Record.get(i).getCertificate_count() / (double)Record.get(i).getAll_count() ;
+			double perint = ((Math.round(per*1000)/1000.0));
+			
+			System.out.println("퍼센트 : " + perint);
+			
+			int money = (int) Math.round(perint*Record.get(i).getChallenge_fee());
+			System.out.println(money);
+			low += money;
+		
+			if(perint==1)
+				count++;
+		}
+		
+		int result = total - low;
+		System.out.println("먹은돈 : " + result);
+		
+		
+		System.out.println("달성자 수 : "+count);
+		
+		int reward = (int) ((result*0.8) / count);
+		System.out.println("1인당 상금 : "+reward);
+		System.out.println("때먹은 수수료 : " + (result-reward*count));
+		
+		//recode에 요금 넣기		
+		//recode에 상금 넣기
+
+	}
+	
 }

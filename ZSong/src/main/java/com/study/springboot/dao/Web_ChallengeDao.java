@@ -8,6 +8,7 @@ import org.apache.ibatis.annotations.Mapper;
 import com.study.springboot.dto.ChallengeDto;
 import com.study.springboot.dto.CommentDto;
 import com.study.springboot.dto.MemberDto;
+import com.study.springboot.dto.RecordDto;
 
 @Mapper
 public interface Web_ChallengeDao {
@@ -49,5 +50,10 @@ public interface Web_ChallengeDao {
 	public ChallengeDto ongoing_challenge_content(int num);
 	
 	public ArrayList<MemberDto> read_participant(int num);
+	
+	public void save_token(String id, String token);
+	public String get_token(String id);
+	
+	public ArrayList<RecordDto> GetRecord(int challenge_num);
 	
 }

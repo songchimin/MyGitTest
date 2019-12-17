@@ -9,7 +9,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-
 import com.study.springboot.dao.ChallengeDao;
 import com.study.springboot.dto.ChallengeDto;
 import com.study.springboot.dto.CommentDto;
@@ -74,6 +73,7 @@ public class ChallengeController2 {
 		} else {
 			dao.ChallengeLikeDelete(member_id, challenge_num);
 			System.out.println("ChallengeLikeDelete");
+		
 		}
 
 		System.out.println("Public_Challenge_like");
@@ -225,11 +225,12 @@ public class ChallengeController2 {
 	}
 
 	@RequestMapping("/private_list")
-	public String Private_Challenge_List(Model model) {
+	public String Private_Challenge_List(Model model,
+			@RequestParam("id") String id) {
 
 		System.out.println("Private_Challenge_List");
 
-		challengelist = dao.PrivateList();
+		challengelist = dao.PrivateList(id);
 
 		model.addAttribute("list", challengelist);
 		return "/private_list";
@@ -247,12 +248,30 @@ public class ChallengeController2 {
 	}
 
 	@RequestMapping("/private_delete")
-	public void Private_Challenge_Delete(Model model, @RequestParam("challenge_num") int num) {
+	public String Private_Challenge_Delete(Model model, @RequestParam("challenge_num") int num, 
+			@RequestParam("id") String id) {
 
 		System.out.println("Private_Challenge_Delete");
 
 		dao.PrivateDelete(num);
 
-		Private_Challenge_List(model);
+		// 여기 수정하기 (Update 안됨)
+
+		challengelist = dao.PrivateList(id);
+
+		model.addAttribute("list", challengelist);
+		return "/private_list";
 	}
+	
+	@RequestMapping("/private_searchcode")
+	public String Private_Challenge_SearchCode(Model model,  
+			@RequestParam("code") String code) {
+		
+		System.out.println(code);
+		
+		challengelist = dao.PrivateSearchCode(code);
+		model.addAttribute("list", challengelist);
+		
+		return "/private_list";
+	}	
 }

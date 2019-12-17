@@ -25,4 +25,5 @@ public class ChallengeDto {
 	private String challenge_code;
 	
 	private int count;
+	private String avg;
 }

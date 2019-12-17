@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
  <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%> 
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%	
 	session.setAttribute("location", "member");
 	String name = (String)session.getAttribute("name");
@@ -222,14 +223,19 @@ white-space: normal
 </script>
  
 
+<style type="text/css">
+.fixed-table-body {
+  overflow-x: auto;
+}
+</style>
 
 </head>
 <body>
 	<jsp:include page="../header.jsp" />
 
 	
-		
-<div class="row" style="margin: 50px; min-width: 1050px;">
+<!-- 		 min-width: 960px; -->
+<div class="row" style="margin: 50px;">
 
 
 <div class="col-12">
@@ -248,11 +254,14 @@ white-space: normal
     <div class="tab-content" id="nav-tabContent">
 	  <div class="tab-pane fade" id="list-ahome" role="tabpanel" aria-labelledby="list-ahome-list"></div>
       <div class="tab-pane fade show active" id="list-home" role="tabpanel" aria-labelledby="list-home-list">
+      		
+ <div class="fixed-table-container" >
+  <div class="fixed-table-body" >     		
       			
-<table class="table" style="text-align: center;">
-  <thead class="table" style="background-color: #007BFF;">
+<table class="table" style="text-align: center; min-width: 1200px;">
+  <thead class="table" style="background-color: #007BFF; ">
     <tr style="color: white;">
-      <th scope="col" rowspan="2" style="vertical-align:middle; font-size: 10pt;">아이디</th>
+      <th scope="col" rowspan="2" style="vertical-align:middle; font-size: 10pt;" width="100px;">아이디</th>
       <th scope="col" rowspan="2" style="vertical-align:middle; font-size: 10pt;">비밀번호</th>
       <th scope="col" rowspan="2" style="vertical-align:middle; font-size: 10pt;">이름</th>
       <th scope="col" rowspan="2" style="vertical-align:middle; font-size: 10pt;">닉네임</th>
@@ -297,10 +306,11 @@ white-space: normal
 				<td style="vertical-align: middle;">${dto.member_name}</td>
 				<td style="vertical-align: middle;">${dto.member_nickname}</td>
 				<td style="vertical-align: middle;">${dto.member_introduction}</td>
-				<td style="vertical-align: middle;">${dto.member_profile_image}</td>
+<%-- 				<td style="vertical-align: middle;">${dto.member_profile_image}</td> --%>
+				<td style="vertical-align: middle;"><img alt="" src="/img/account.png"></td>
 				<td style="vertical-align: middle;">${dto.member_public}</td>
 				<td style="vertical-align: middle;">${dto.member_account}</td>
-				<td style="vertical-align: middle;">${dto.member_joindate}</td>
+				<td style="vertical-align: middle;"><c:set var="joindate" value="${fn:substring(dto.member_joindate,0,10)}"/> ${joindate}</td>
 				<td style="vertical-align: middle;">${dto.member_last_access}</td>
 				<td style="vertical-align: middle;">${dto.member_exp}</td>
 				<td style="vertical-align: middle;">${dto.member_grade}</td>
@@ -423,6 +433,9 @@ white-space: normal
 			</tr>
   </tbody>
 </table>
+</div></div>
+
+
       </div>
       <div class="tab-pane fade" id="list-profile" role="tabpanel" aria-labelledby="list-profile-list">...</div>
       <div class="tab-pane fade" id="list-messages" role="tabpanel" aria-labelledby="list-messages-list">...</div>

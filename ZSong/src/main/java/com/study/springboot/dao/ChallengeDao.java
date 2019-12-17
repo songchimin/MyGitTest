@@ -14,7 +14,7 @@ public interface ChallengeDao {
 	public ArrayList<ChallengeDto> PublicList();
 	public void PrivateChallenge(String title, String category, String type, String frequency, String start, String end,
 			String fee, String time, String detail, String image, String host);
-	public ArrayList<ChallengeDto> PrivateList();
+	public ArrayList<ChallengeDto> PrivateList(String id);
 	public ArrayList<ChallengeDto> PrivateModify(String host);
 	public void PrivateDelete(int challenge_num);
 	public void CommentInsert(int challenge_num, String member_id, String content);
@@ -27,4 +27,5 @@ public interface ChallengeDao {
 	public void ChallengeLikeDelete(String member_id, int challenge_num);
 	public int ChallengeLikeExist(String member_id, int challenge_num);
 	public int ChallengeLikeCount(int challenge_num);
+	public ArrayList<ChallengeDto> PrivateSearchCode(String code);
 }

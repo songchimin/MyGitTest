@@ -3,6 +3,7 @@ package com.study.springboot.dao;
 import java.util.ArrayList;
 import org.apache.ibatis.annotations.Mapper;
 import com.study.springboot.dto.CertificateDto;
+import com.study.springboot.dto.ChallengeDto;
 
 @Mapper
 public interface SeleeDao {
@@ -14,6 +15,8 @@ public interface SeleeDao {
    public int CertificateList_count(int cnum, String id);
    public int CertificateList_check_count(int cnum, String id);
    
-   public void record_insert(String challenge_num, String member_id, String all_count, String principal);
+   public void record_insert(String challenge_num, String member_id, int all_count, int challenge_fee);
    public void certificate_insert(String Challenge_num, String member_id, String certificate_date);
+   
+   public ChallengeDto selectChallenge(String challenge_num);
 }

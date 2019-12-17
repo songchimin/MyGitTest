@@ -5,6 +5,10 @@
    
 <mapper namespace="com.study.springboot.dao.Web_ChallengeDao">
 
+   <select id="All_challenge" resultType="com.study.springboot.dto.ChallengeDto">
+		select * from challenge
+   </select>
+
    <select id="All_RegisterWait_challenge" resultType="com.study.springboot.dto.ChallengeDto">
 		select * from ( select <![CDATA[rownum num]]>, A.* 
 						from ( select * 
@@ -120,7 +124,7 @@
    
    
    <update id="approve_public_challenge"> <!-- 공개챌린지를 투표하도록 승인 -->
-   		update challenge set challenge_state = 1 where challenge_num  = #{param1}
+   		update challenge set challenge_state = #{param2} where challenge_num  = #{param1}
    </update>
    
    
@@ -134,9 +138,10 @@
 		       			where <![CDATA[rownum <=]]> #{param1} ) B 
 		where B.num <![CDATA[>=]]> #{param2}
    </select>
-
+	
+<!--상태별 챌린지 카운트 -->
    <select id="public_challenge_count" resultType="int">
-      select count(*) from challenge where challenge_state = 1 and challenge_public = 0
+      select count(*) from challenge where challenge_state = #{param1} and challenge_public = #{param2} or challenge_public = #{param3}
    </select>
    
    <select id="public_challenge_content" resultType="com.study.springboot.dto.ChallengeDto">
@@ -179,9 +184,35 @@
    </select>
    
    <select id="GetRecord" resultType="com.study.springboot.dto.RecordDto">
-		select b.member_id, a.certificate_count, a.all_count, a.challenge_fee from record a, member b where member_num = member_no and challenge_num = #{param1}
+		select b.member_id, a.member_num, a.certificate_count, a.all_count, a.challenge_fee from record a, member b where member_num = member_no and challenge_num = #{param1}
    </select>
-   
 
+   <select id="GetAllRecord" resultType="com.study.springboot.dto.RecordAllDto">
+		select * from record
+   </select>   
+   
+   
+   <update id="setRecord">
+		update record set reward = #{param3}, receipt = <![CDATA[sysdate]]> where member_num = #{param1} and challenge_num = #{param2}
+   </update>
+      
+   <insert id="setMoney">
+	      insert into cash_list(list_cash_num, list_member_id, list_cash_content, list_cash_check) values(list_cash_seq.nextval, #{param1}, #{param2}, 5)
+   </insert>
+   	      
+   <insert id="setReward">
+	      insert into cash_list(list_cash_num, list_member_id, list_cash_content, list_cash_check) values(list_cash_seq.nextval, #{param1}, #{param2}, 2)
+   </insert>
+	
+
+		<select id="end_challenge" resultType="com.study.springboot.dto.ChallengeDto">
+		select * from ( select <![CDATA[rownum num]]>, A.* 
+						from ( select * 
+							   from challenge 
+							   where challenge_state = 3
+							   order by challenge_end DESC ) A  
+		       			where <![CDATA[rownum <=]]> #{param1} ) B 
+		where B.num <![CDATA[>=]]> #{param2}
+   </select>
 	
 </mapper>

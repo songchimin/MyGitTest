@@ -31,7 +31,7 @@ for(int i=0;i<array.size();i++){
 	jObject.put("challenge_state", array.get(i).getChallenge_state());
 	jObject.put("challenge_exp", array.get(i).getChallenge_exp());
 	jObject.put("challenge_host", array.get(i).getChallenge_host());
-	
+	jObject.put("challenge_code", array.get(i).getChallenge_code());
 	jArray.add(i, jObject);
 }
 jsonMain.put("List", jArray);

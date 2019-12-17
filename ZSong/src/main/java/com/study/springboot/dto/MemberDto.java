@@ -19,6 +19,7 @@ public class MemberDto {
 	private Timestamp	member_joindate;
 	private Timestamp	member_last_access;
 	private int	member_exp;
+	
 	private String	member_grade;
 	private String	member_profile_image;
 	private int	member_public;

@@ -103,7 +103,8 @@
 	<jsp:include page="../header.jsp" />
 
 
-<div class="row" style="margin: 50px; min-width: 1050px;">
+<!-- <div class="row" style="margin: 50px; min-width: 1050px;"> -->
+<div class="row" style="margin: 50px;">
 
 <div class="col-12">
 
@@ -145,7 +146,6 @@
 				<td>${dto.manager_name}</td>
 				<td>${dto.manager_grade}</td>
 				<td>${dto.manager_access}</td>
-
 			</tr>
 			</c:forEach>
 
@@ -178,7 +178,7 @@
 						</td>
 					
 				</form>
-				<td colspan="1"></td>	
+<!-- 				<td colspan="1"></td>	 -->
 <!-- 				글작성 로그인 상태에서 가능 조건 -->
 <!-- 				<td colspan="2" style="text-align: right;"> -->
 <!-- 					<button onclick="login_check()">글작성</button> -->

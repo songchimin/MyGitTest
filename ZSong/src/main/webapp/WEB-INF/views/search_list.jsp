@@ -12,7 +12,6 @@
    ArrayList<Serach_ChallengeDto> array = (ArrayList<Serach_ChallengeDto>) request.getAttribute("search_list");
 
    for (int i = 0; i < array.size(); i++) {
-
       JSONObject jObject = new JSONObject();
 
       jObject.put("challenge_num", array.get(i).getChallenge_num());
@@ -30,13 +29,13 @@
       }
 
       jObject.put("challenge_fee", array.get(i).getChallenge_fee());
-  //    jObject.put("challenge_time", array.get(i).getChallenge_time());
+      jObject.put("challenge_time", array.get(i).getChallenge_time());
       jObject.put("challenge_detail", array.get(i).getChallenge_detail());
       jObject.put("challenge_first_image", array.get(i).getChallenge_first_image());
       jObject.put("challenge_public", array.get(i).getChallenge_public());
       jObject.put("challenge_state", array.get(i).getChallenge_state());
       jObject.put("challenge_exp", array.get(i).getChallenge_exp());
-   //   jObject.put("challenge_date", array.get(i).getChallenge_date());
+     // jObject.put("challenge_date", array.get(i).getChallenge_date());
       jObject.put("challenge_host", array.get(i).getChallenge_host());
 
       jArray.add(i, jObject);

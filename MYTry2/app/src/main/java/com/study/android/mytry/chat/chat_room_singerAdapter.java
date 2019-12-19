@@ -2,10 +2,15 @@ package com.study.android.mytry.chat;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
+import android.support.annotation.RequiresApi;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 
+
+import com.study.android.mytry.search.Search_detail;
 
 import java.util.ArrayList;
 
@@ -41,6 +46,9 @@ public class chat_room_singerAdapter extends BaseAdapter {
         return position;
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+    //머여
+
     @Override
     public View getView(final int position, final View convertView, ViewGroup parent){
 
@@ -54,25 +62,19 @@ public class chat_room_singerAdapter extends BaseAdapter {
 
         final chat_room_singerItem item = items.get(position);
 
-
-//        view.setFilter_items(item.gtgetInterest_context());
-//        view.setChat_room_image(item.getChat_room_image());
+        view.setChat_room_image(item.getChat_room_image());
         view.setChat_room_title(item.getChat_room_title());
-        view.setChat_room_previous(item.getChat_room_previous());
-        view.setChat_room_previous_time(item.getChat_room_previous_time());
-        view.setChat_room_count(item.getChat_room_count());
+        view.setChat_room_participant_count(item.getChat_room_num());
 
-//        view.setOnClickListener(new Button.OnClickListener() {
-//            public void onClick(View v){
-//                Intent intent = new Intent(filter_context, search_filer_main.class);
-//                intent.putExtra("sendData", item.getInterest_context());// 이 메서드를 통해 데이터를 전달합니다.
-//
-//
-//                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//                filter_context.startActivity(intent);
-//
-//            }
-//        });
+        view.setOnClickListener(new Button.OnClickListener() {
+            public void onClick(View v){
+                Intent intent = new Intent(context, private_chat.class);
+                intent.putExtra("chat_room_num", item.getChat_room_num());// 이 메서드를 통해 데이터를 전달합니다.
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+
+                context.startActivity(intent);
+            }
+        });
 
         return view;
     }

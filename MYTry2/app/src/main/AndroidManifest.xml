@@ -31,6 +31,7 @@
         android:theme="@style/Theme.AppCompat.DayNight.NoActionBar"
         android:usesCleartextTraffic="true">
         <activity android:name=".chat.chat_room"></activity>
+        <activity android:name=".chat.private_chat"></activity>
         <activity android:name=".mypage.setup.PasswordModify" />
         <activity android:name=".mypage.MemoInsert" />
         <activity android:name=".challenge_private.CreationParticipation" />

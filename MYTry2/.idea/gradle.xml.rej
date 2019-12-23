@@ -1,9 +1,0 @@
-diff a/MYTry2/.idea/gradle.xml b/MYTry2/.idea/gradle.xml	(rejected hunks)
-@@ -8,6 +8,7 @@
-          </compositeConfiguration>
-          <option name="distributionType" value="DEFAULT_WRAPPED" />
-          <option name="externalProjectPath" value="$PROJECT_DIR$" />
-++<<<<<<< HEAD
- +        <option name="modules">
- +          <set>
- +            <option value="$PROJECT_DIR$" />

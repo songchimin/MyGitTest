@@ -1,0 +1,9 @@
+diff a/MYTry2/app/src/main/java/com/study/android/mytry/main/Fragment_Mypage.java b/MYTry2/app/src/main/java/com/study/android/mytry/main/Fragment_Mypage.java	(rejected hunks)
+@@ -11,6 +11,7 @@
+  import android.support.v4.app.Fragment;
+  import android.support.v4.app.FragmentManager;
+  import android.support.v4.app.FragmentTransaction;
+++<<<<<<< HEAD
+ +=======
+  import android.support.v7.app.AlertDialog;
+ +>>>>>>> 98f0b4a091142ceb2e4dca67a25f5853cf3607b7
